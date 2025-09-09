@@ -1,0 +1,929 @@
+openapi: 3.0.3
+info:
+  title: Here and Now Task Management API
+  description: Context-aware task management system API
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Development server
+  - url: https://api.hereandnow.local/v1
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate user
+      operationId: login
+      tags: [Authentication]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+
+  /auth/logout:
+    post:
+      summary: Logout user
+      operationId: logout
+      tags: [Authentication]
+      responses:
+        '204':
+          description: Successfully logged out
+
+  /users/me:
+    get:
+      summary: Get current user profile
+      operationId: getCurrentUser
+      tags: [Users]
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      summary: Update current user profile
+      operationId: updateCurrentUser
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Updated user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /tasks:
+    get:
+      summary: Get filtered tasks for current context
+      operationId: getTasks
+      tags: [Tasks]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, active, completed, cancelled, blocked]
+        - name: assignee_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: list_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: show_all
+          in: query
+          description: Override context filtering
+          schema:
+            type: boolean
+            default: false
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  total:
+                    type: integer
+                  context:
+                    $ref: '#/components/schemas/Context'
+    post:
+      summary: Create a new task
+      operationId: createTask
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /tasks/{taskId}:
+    get:
+      summary: Get task by ID
+      operationId: getTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Task not found
+    patch:
+      summary: Update task
+      operationId: updateTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+    delete:
+      summary: Delete task
+      operationId: deleteTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Task deleted
+
+  /tasks/{taskId}/assign:
+    post:
+      summary: Assign task to user
+      operationId: assignTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [assignee_id]
+              properties:
+                assignee_id:
+                  type: string
+                  format: uuid
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Task assigned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskAssignment'
+
+  /tasks/{taskId}/complete:
+    post:
+      summary: Mark task as completed
+      operationId: completeTask
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Task completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /tasks/{taskId}/audit:
+    get:
+      summary: Get filtering audit trail for task
+      operationId: getTaskAudit
+      tags: [Tasks]
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Audit trail
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterAudit'
+
+  /tasks/natural:
+    post:
+      summary: Create task from natural language
+      operationId: createTaskNatural
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [input]
+              properties:
+                input:
+                  type: string
+                  description: Natural language task description
+                input_type:
+                  type: string
+                  enum: [text, voice, image]
+                  default: text
+      responses:
+        '201':
+          description: Task created from natural language
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /lists:
+    get:
+      summary: Get task lists
+      operationId: getLists
+      tags: [Lists]
+      parameters:
+        - name: shared_only
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: List of task lists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskList'
+    post:
+      summary: Create task list
+      operationId: createList
+      tags: [Lists]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskListCreate'
+      responses:
+        '201':
+          description: List created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskList'
+
+  /lists/{listId}/members:
+    get:
+      summary: Get list members
+      operationId: getListMembers
+      tags: [Lists]
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListMember'
+    post:
+      summary: Add member to list
+      operationId: addListMember
+      tags: [Lists]
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_id, role]
+              properties:
+                user_id:
+                  type: string
+                  format: uuid
+                role:
+                  type: string
+                  enum: [editor, viewer]
+      responses:
+        '201':
+          description: Member added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMember'
+
+  /locations:
+    get:
+      summary: Get user locations
+      operationId: getLocations
+      tags: [Locations]
+      responses:
+        '200':
+          description: List of locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+    post:
+      summary: Create location
+      operationId: createLocation
+      tags: [Locations]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationCreate'
+      responses:
+        '201':
+          description: Location created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+
+  /context:
+    get:
+      summary: Get current context
+      operationId: getCurrentContext
+      tags: [Context]
+      responses:
+        '200':
+          description: Current context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Context'
+    post:
+      summary: Update context
+      operationId: updateContext
+      tags: [Context]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContextUpdate'
+      responses:
+        '200':
+          description: Updated context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Context'
+
+  /calendar/sync:
+    post:
+      summary: Sync calendar events
+      operationId: syncCalendar
+      tags: [Calendar]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [provider]
+              properties:
+                provider:
+                  type: string
+                  enum: [google, outlook, apple, caldav]
+                credentials:
+                  type: object
+      responses:
+        '200':
+          description: Sync completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events_synced:
+                    type: integer
+                  last_sync:
+                    type: string
+                    format: date-time
+
+  /analytics:
+    get:
+      summary: Get productivity analytics
+      operationId: getAnalytics
+      tags: [Analytics]
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: group_by
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month]
+            default: day
+      responses:
+        '200':
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Analytics'
+
+  /events:
+    get:
+      summary: Get server-sent events for real-time updates
+      operationId: getEvents
+      tags: [Events]
+      responses:
+        '200':
+          description: Event stream
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        display_name:
+          type: string
+        timezone:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        settings:
+          type: object
+
+    UserUpdate:
+      type: object
+      properties:
+        display_name:
+          type: string
+        timezone:
+          type: string
+        settings:
+          type: object
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        creator_id:
+          type: string
+          format: uuid
+        assignee_id:
+          type: string
+          format: uuid
+        list_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, active, completed, cancelled, blocked]
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 5
+        estimated_minutes:
+          type: integer
+        due_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+        dependencies:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    TaskCreate:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        list_id:
+          type: string
+          format: uuid
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 5
+        estimated_minutes:
+          type: integer
+        due_at:
+          type: string
+          format: date-time
+        location_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        dependency_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, active, completed, cancelled, blocked]
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 5
+        estimated_minutes:
+          type: integer
+        due_at:
+          type: string
+          format: date-time
+
+    TaskList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        owner_id:
+          type: string
+          format: uuid
+        is_shared:
+          type: boolean
+        color:
+          type: string
+        icon:
+          type: string
+        parent_id:
+          type: string
+          format: uuid
+        position:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    TaskListCreate:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        icon:
+          type: string
+        parent_id:
+          type: string
+          format: uuid
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        address:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        radius:
+          type: integer
+        category:
+          type: string
+
+    LocationCreate:
+      type: object
+      required: [name, latitude, longitude]
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        radius:
+          type: integer
+          default: 100
+        category:
+          type: string
+
+    Context:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        current_latitude:
+          type: number
+        current_longitude:
+          type: number
+        current_location_id:
+          type: string
+          format: uuid
+        available_minutes:
+          type: integer
+        social_context:
+          type: string
+        energy_level:
+          type: integer
+          minimum: 1
+          maximum: 5
+        weather_condition:
+          type: string
+        traffic_level:
+          type: string
+
+    ContextUpdate:
+      type: object
+      properties:
+        current_latitude:
+          type: number
+        current_longitude:
+          type: number
+        social_context:
+          type: string
+        energy_level:
+          type: integer
+          minimum: 1
+          maximum: 5
+
+    TaskAssignment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        task_id:
+          type: string
+          format: uuid
+        assigned_by:
+          type: string
+          format: uuid
+        assigned_to:
+          type: string
+          format: uuid
+        assigned_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [pending, accepted, rejected]
+        response_message:
+          type: string
+
+    ListMember:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        list_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [owner, editor, viewer]
+        invited_at:
+          type: string
+          format: date-time
+        accepted_at:
+          type: string
+          format: date-time
+
+    FilterAudit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        task_id:
+          type: string
+          format: uuid
+        is_visible:
+          type: boolean
+        reasons:
+          type: array
+          items:
+            type: object
+            properties:
+              rule:
+                type: string
+              passed:
+                type: boolean
+              details:
+                type: string
+        priority_score:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+
+    Analytics:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        tasks_created:
+          type: integer
+        tasks_completed:
+          type: integer
+        tasks_cancelled:
+          type: integer
+        minutes_estimated:
+          type: integer
+        minutes_actual:
+          type: integer
+        location_changes:
+          type: integer
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        expires_at:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        details:
+          type: object
