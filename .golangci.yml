@@ -1,0 +1,112 @@
+version: 2
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+    exclude-functions:
+      - fmt.Print
+      - fmt.Println
+      - fmt.Printf
+
+  goimports:
+    local-prefixes: github.com/bcnelson/hereAndNow
+
+  revive:
+    min-confidence: 0.8
+    rules:
+      - name: var-naming
+      - name: package-comments
+      - name: exported
+      - name: indent-error-flow
+      - name: if-return
+      - name: empty-block
+      - name: superfluous-else
+      - name: unused-parameter
+      - name: unreachable-code
+      - name: redefines-builtin-id
+
+  staticcheck:
+    go: "1.24"
+    checks: ["all"]
+
+  gosec:
+    excludes:
+      - G104 # Audit errors not checked (we handle this with errcheck)
+
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+
+  gocyclo:
+    min-complexity: 15
+
+  dupl:
+    threshold: 100
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - dupImport
+      - ifElseChain
+      - octalLiteral
+      - whyNoLint
+      - wrapperFunc
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  new: false
+
+  exclude:
+    # Allow long lines in test files
+    - "Line contains TODO/BUG/FIXME:"
+    
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+        - goconst
+
+    # Exclude specific rules for generated files
+    - path: ".*\\.pb\\.go"
+      linters:
+        - revive
+        - stylecheck
+
+    # Exclude package comment rules for main packages
+    - path: cmd/
+      linters:
+        - revive
+      text: "should have a package comment"
+
+severity:
+  default-severity: error
+  case-sensitive: true

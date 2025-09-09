@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Here and Now API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav a:hover {
+            color: #764ba2;
+        }
+        
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        h2 {
+            color: #495057;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #6c757d;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+            font-size: 1.4rem;
+        }
+        
+        h4 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .endpoint {
+            margin-bottom: 3rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .endpoint-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .method {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .method.GET { background: #28a745; }
+        .method.POST { background: #007bff; }
+        .method.PATCH { background: #ffc107; color: #212529; }
+        .method.DELETE { background: #dc3545; }
+        
+        .endpoint-path {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.1rem;
+            color: #495057;
+        }
+        
+        .endpoint-content {
+            padding: 1.5rem;
+        }
+        
+        .description {
+            margin-bottom: 1.5rem;
+            color: #6c757d;
+        }
+        
+        .parameters, .responses {
+            margin-bottom: 1.5rem;
+        }
+        
+        .param {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .param-name {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 0.25rem;
+        }
+        
+        .param-type {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-left: 1rem;
+        }
+        
+        .param-description {
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .response {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .response-code {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 0.25rem;
+        }
+        
+        .schema {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        
+        .property {
+            margin-bottom: 0.75rem;
+            padding-left: 1rem;
+        }
+        
+        .property-name {
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .property-type {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-left: 0.5rem;
+        }
+        
+        .required {
+            color: #dc3545;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        .example {
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+        }
+        
+        @media (max-width: 768px) {
+            .nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Here and Now API</h1>
+            <p class="subtitle">Context-aware task management system API - Version 1.0.0</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#tasks">Tasks</a></li>
+                <li><a href="#lists">Lists</a></li>
+                <li><a href="#locations">Locations</a></li>
+                <li><a href="#context">Context</a></li>
+                <li><a href="#schemas">Schemas</a></li>
+            </ul>
+        </nav>
+        
+        <section id="overview" class="section">
+            <div class="section-header">
+                <h2>Overview</h2>
+            </div>
+            <div class="section-content">
+                <p>The Here and Now API is a RESTful API for a context-aware task management system. It automatically filters tasks based on your current location, available time, and other contextual factors.</p>
+                
+                <h3>Base URLs</h3>
+                <ul>
+                    <li><strong>Development:</strong> <code>http://localhost:8080/api/v1</code></li>
+                    <li><strong>Production:</strong> <code>https://api.hereandnow.local/v1</code></li>
+                </ul>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Context-aware task filtering based on location and availability</li>
+                    <li>Real-time updates via Server-Sent Events</li>
+                    <li>Comprehensive audit trails for filtering decisions</li>
+                    <li>Natural language task creation</li>
+                    <li>Shared task lists with role-based permissions</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="authentication" class="section">
+            <div class="section-header">
+                <h2>Authentication</h2>
+            </div>
+            <div class="section-content">
+                <p>The API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header for all protected endpoints.</p>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method POST">POST</span>
+                        <span class="endpoint-path">/auth/login</span>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="description">Authenticate user and receive JWT token</p>
+                        
+                        <div class="parameters">
+                            <h4>Request Body</h4>
+                            <div class="param">
+                                <div class="param-name">username <span class="param-type">string</span> <span class="required">required</span></div>
+                                <div class="param-description">User's username</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">password <span class="param-type">string</span> <span class="required">required</span></div>
+                                <div class="param-description">User's password</div>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block example">
+{
+  "username": "johndoe",
+  "password": "SecureP@ssw0rd!"
+}
+                        </div>
+                        
+                        <div class="responses">
+                            <h4>Responses</h4>
+                            <div class="response">
+                                <div class="response-code">200 OK - Successful authentication</div>
+                                <div class="code-block">
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "display_name": "John Doe",
+    "timezone": "America/New_York"
+  },
+  "expires_at": "2025-09-09T20:00:00Z"
+}
+                                </div>
+                            </div>
+                            <div class="response">
+                                <div class="response-code">401 Unauthorized - Invalid credentials</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method POST">POST</span>
+                        <span class="endpoint-path">/auth/logout</span>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="description">Logout current user and invalidate token</p>
+                        <div class="responses">
+                            <h4>Responses</h4>
+                            <div class="response">
+                                <div class="response-code">204 No Content - Successfully logged out</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tasks" class="section">
+            <div class="section-header">
+                <h2>Tasks</h2>
+            </div>
+            <div class="section-content">
+                <p>Task management endpoints with context-aware filtering. Tasks are automatically filtered based on your current location, available time, and other contextual factors.</p>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method GET">GET</span>
+                        <span class="endpoint-path">/tasks</span>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="description">Get filtered tasks for current context. Only shows tasks that can be completed right now based on your location and availability.</p>
+                        
+                        <div class="parameters">
+                            <h4>Query Parameters</h4>
+                            <div class="param">
+                                <div class="param-name">status <span class="param-type">string</span></div>
+                                <div class="param-description">Filter by task status (pending, active, completed, cancelled, blocked)</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">show_all <span class="param-type">boolean</span></div>
+                                <div class="param-description">Override context filtering to show all tasks (default: false)</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">limit <span class="param-type">integer</span></div>
+                                <div class="param-description">Maximum number of tasks to return (default: 50)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="responses">
+                            <h4>Responses</h4>
+                            <div class="response">
+                                <div class="response-code">200 OK - List of filtered tasks</div>
+                                <div class="code-block">
+{
+  "tasks": [
+    {
+      "id": "456e7890-e89b-12d3-a456-426614174001",
+      "title": "Buy groceries",
+      "description": "Pick up milk, bread, and eggs from the store",
+      "creator_id": "123e4567-e89b-12d3-a456-426614174000",
+      "status": "pending",
+      "priority": 3,
+      "estimated_minutes": 30,
+      "due_at": "2025-09-09T18:00:00Z",
+      "locations": [
+        {
+          "id": "789e1234-e89b-12d3-a456-426614174002",
+          "name": "Grocery Store",
+          "address": "123 Main St, City, ST 12345",
+          "latitude": 40.7128,
+          "longitude": -74.0060,
+          "radius": 100,
+          "category": "shopping"
+        }
+      ]
+    }
+  ],
+  "total": 1,
+  "context": {
+    "id": "abc12345-e89b-12d3-a456-426614174003",
+    "user_id": "123e4567-e89b-12d3-a456-426614174000",
+    "timestamp": "2025-09-09T12:00:00Z",
+    "current_latitude": 40.7130,
+    "current_longitude": -74.0062,
+    "available_minutes": 120,
+    "energy_level": 4
+  }
+}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method POST">POST</span>
+                        <span class="endpoint-path">/tasks</span>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="description">Create a new task</p>
+                        
+                        <div class="parameters">
+                            <h4>Request Body</h4>
+                            <div class="param">
+                                <div class="param-name">title <span class="param-type">string</span> <span class="required">required</span></div>
+                                <div class="param-description">Task title (1-500 characters)</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">description <span class="param-type">string</span></div>
+                                <div class="param-description">Detailed task description</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">priority <span class="param-type">integer</span></div>
+                                <div class="param-description">Task priority (1-5, higher is more important)</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">estimated_minutes <span class="param-type">integer</span></div>
+                                <div class="param-description">Estimated time to complete in minutes</div>
+                            </div>
+                            <div class="param">
+                                <div class="param-name">location_ids <span class="param-type">array[string]</span></div>
+                                <div class="param-description">Array of location IDs where task can be completed</div>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block example">
+{
+  "title": "Complete project proposal",
+  "description": "Draft and review the Q4 project proposal document",
+  "priority": 2,
+  "estimated_minutes": 120,
+  "due_at": "2025-09-12T17:00:00Z",
+  "location_ids": ["789e1234-e89b-12d3-a456-426614174002"]
+}
+                        </div>
+                        
+                        <div class="responses">
+                            <h4>Responses</h4>
+                            <div class="response">
+                                <div class="response-code">201 Created - Task created successfully</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method GET">GET</span>
+                        <span class="endpoint-path">/tasks/{taskId}/audit</span>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="description">Get filtering audit trail for a specific task. Shows why the task was or wasn't visible in different contexts.</p>
+                        
+                        <div class="responses">
+                            <h4>Responses</h4>
+                            <div class="response">
+                                <div class="response-code">200 OK - Audit trail entries</div>
+                                <div class="code-block">
+[
+  {
+    "id": "audit123",
+    "task_id": "456e7890-e89b-12d3-a456-426614174001",
+    "is_visible": true,
+    "reasons": [
+      {
+        "rule": "LocationFilter",
+        "passed": true,
+        "details": "User within 150m of required location 'Grocery Store'"
+      },
+      {
+        "rule": "TimeFilter", 
+        "passed": true,
+        "details": "Available time (120 min) >= estimated time (30 min)"
+      }
+    ],
+    "priority_score": 85.5,
+    "created_at": "2025-09-09T12:00:00Z"
+  }
+]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="context" class="section">
+            <div class="section-header">
+                <h2>Context</h2>
+            </div>
+            <div class="section-content">
+                <p>Context management for determining what tasks are relevant based on current situation.</p>
+                
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method GET">GET</span>
+                        <span class="endpoint-path">/context</span>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="description">Get current user context including location, available time, and energy level</p>
+                        
+                        <div class="responses">
+                            <h4>Responses</h4>
+                            <div class="response">
+                                <div class="response-code">200 OK - Current context</div>
+                                <div class="code-block">
+{
+  "id": "abc12345-e89b-12d3-a456-426614174003",
+  "user_id": "123e4567-e89b-12d3-a456-426614174000", 
+  "timestamp": "2025-09-09T12:00:00Z",
+  "current_latitude": 40.7130,
+  "current_longitude": -74.0062,
+  "available_minutes": 120,
+  "social_context": "alone",
+  "energy_level": 4,
+  "weather_condition": "sunny",
+  "traffic_level": "light"
+}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="schemas" class="section">
+            <div class="section-header">
+                <h2>Data Schemas</h2>
+            </div>
+            <div class="section-content">
+                <h3>User</h3>
+                <div class="schema">
+                    <div class="property">
+                        <span class="property-name">id</span>
+                        <span class="property-type">string (uuid)</span>
+                        <div class="param-description">Unique user identifier</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">username</span>
+                        <span class="property-type">string (3-50 chars)</span> <span class="required">required</span>
+                        <div class="param-description">Unique username for login</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">email</span>
+                        <span class="property-type">string (email)</span> <span class="required">required</span>
+                        <div class="param-description">User's email address</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">display_name</span>
+                        <span class="property-type">string (max 100 chars)</span>
+                        <div class="param-description">Display name for user interface</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">timezone</span>
+                        <span class="property-type">string</span>
+                        <div class="param-description">User's timezone (e.g., "America/New_York")</div>
+                    </div>
+                </div>
+                
+                <h3>Task</h3>
+                <div class="schema">
+                    <div class="property">
+                        <span class="property-name">id</span>
+                        <span class="property-type">string (uuid)</span>
+                        <div class="param-description">Unique task identifier</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">title</span>
+                        <span class="property-type">string (1-500 chars)</span> <span class="required">required</span>
+                        <div class="param-description">Task title or summary</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">description</span>
+                        <span class="property-type">string</span>
+                        <div class="param-description">Detailed task description</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">status</span>
+                        <span class="property-type">enum</span>
+                        <div class="param-description">Task status: pending, active, completed, cancelled, blocked</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">priority</span>
+                        <span class="property-type">integer (1-5)</span>
+                        <div class="param-description">Task priority, 5 being highest priority</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">estimated_minutes</span>
+                        <span class="property-type">integer (min 1)</span>
+                        <div class="param-description">Estimated time to complete in minutes</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">locations</span>
+                        <span class="property-type">array[Location]</span>
+                        <div class="param-description">Locations where task can be completed</div>
+                    </div>
+                </div>
+                
+                <h3>Location</h3>
+                <div class="schema">
+                    <div class="property">
+                        <span class="property-name">id</span>
+                        <span class="property-type">string (uuid)</span>
+                        <div class="param-description">Unique location identifier</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">name</span>
+                        <span class="property-type">string (1-200 chars)</span> <span class="required">required</span>
+                        <div class="param-description">Human-readable location name</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">latitude</span>
+                        <span class="property-type">number (-90 to 90)</span> <span class="required">required</span>
+                        <div class="param-description">Location latitude in decimal degrees</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">longitude</span>
+                        <span class="property-type">number (-180 to 180)</span> <span class="required">required</span>
+                        <div class="param-description">Location longitude in decimal degrees</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">radius</span>
+                        <span class="property-type">integer (1-10000)</span>
+                        <div class="param-description">Location radius in meters for proximity matching</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">category</span>
+                        <span class="property-type">enum</span>
+                        <div class="param-description">Location category: work, home, shopping, exercise, social, travel, general</div>
+                    </div>
+                </div>
+                
+                <h3>Context</h3>
+                <div class="schema">
+                    <div class="property">
+                        <span class="property-name">current_latitude</span>
+                        <span class="property-type">number</span>
+                        <div class="param-description">User's current latitude</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">current_longitude</span>
+                        <span class="property-type">number</span>
+                        <div class="param-description">User's current longitude</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">available_minutes</span>
+                        <span class="property-type">integer</span>
+                        <div class="param-description">Minutes available for task completion</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">energy_level</span>
+                        <span class="property-type">integer (1-5)</span>
+                        <div class="param-description">Current energy level, 5 being highest</div>
+                    </div>
+                    <div class="property">
+                        <span class="property-name">social_context</span>
+                        <span class="property-type">string</span>
+                        <div class="param-description">Social situation (alone, with_family, at_work, etc.)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer style="text-align: center; padding: 2rem; color: #6c757d; border-top: 1px solid #e9ecef; margin-top: 3rem;">
+            <p>Here and Now API Documentation - Generated on 2025-09-09</p>
+            <p>Context-aware task management for productivity</p>
+        </footer>
+    </div>
+</body>
+</html>
