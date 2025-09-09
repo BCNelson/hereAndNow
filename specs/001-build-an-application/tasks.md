@@ -157,21 +157,21 @@ This task list implements a Go-based context-aware task management system with S
 - [x] **T085** CLI configuration in `cmd/hereandnow/config.go` - config file management (.hereandnow/config.yaml)
 - [x] **T086** CLI output formatting in `cmd/hereandnow/format.go` - JSON, table, and human-readable output
 
-## Phase 3.8: Integration Tests (After core implementation)
+## Phase 3.8: Integration Tests (After core implementation) ✅
 
 ### User Story Integration Tests
-- [ ] **T087** [P] Scenario: Location-based filtering in `tests/integration/location_filtering_test.go` - verify tasks appear/disappear based on GPS location
-- [ ] **T088** [P] Scenario: Time-based filtering in `tests/integration/time_filtering_test.go` - verify tasks filtered by available time windows
-- [ ] **T089** [P] Scenario: Task dependencies in `tests/integration/dependencies_test.go` - verify dependent tasks hidden until prerequisites complete
-- [ ] **T090** [P] Scenario: Shared task lists in `tests/integration/shared_lists_test.go` - verify real-time collaboration features
-- [ ] **T091** [P] Scenario: Calendar integration in `tests/integration/calendar_sync_test.go` - verify calendar events affect task availability
-- [ ] **T092** [P] Scenario: Natural language parsing in `tests/integration/natural_language_test.go` - verify "buy milk when at grocery store" parsing
-- [ ] **T093** [P] Scenario: Task assignment workflow in `tests/integration/task_assignment_test.go` - verify delegation, acceptance, rejection flow
+- [x] **T087** [P] Scenario: Location-based filtering in `tests/integration/location_filtering_test.go` - verify tasks appear/disappear based on GPS location
+- [x] **T088** [P] Scenario: Time-based filtering in `tests/integration/time_filtering_test.go` - verify tasks filtered by available time windows
+- [x] **T089** [P] Scenario: Task dependencies in `tests/integration/dependencies_test.go` - verify dependent tasks hidden until prerequisites complete
+- [x] **T090** [P] Scenario: Shared task lists in `tests/integration/shared_lists_test.go` - verify real-time collaboration features
+- [x] **T091** [P] Scenario: Calendar integration in `tests/integration/calendar_sync_test.go` - verify calendar events affect task availability
+- [x] **T092** [P] Scenario: Natural language parsing in `tests/integration/natural_language_test.go` - verify "buy milk when at grocery store" parsing
+- [x] **T093** [P] Scenario: Task assignment workflow in `tests/integration/task_assignment_test.go` - verify delegation, acceptance, rejection flow
 
 ### System Integration Tests
-- [ ] **T094** Database integration test in `tests/integration/database_test.go` - verify all repositories work with real SQLite
-- [ ] **T095** API integration test in `tests/integration/api_test.go` - verify all endpoints work together with real database
-- [ ] **T096** CLI integration test in `tests/integration/cli_test.go` - verify CLI commands work with real database and API
+- [x] **T094** Database integration test in `tests/integration/database_test.go` - verify all repositories work with real SQLite
+- [x] **T095** API integration test in `tests/integration/api_test.go` - verify all endpoints work together with real database
+- [x] **T096** CLI integration test in `tests/integration/cli_test.go` - verify CLI commands work with real database and API
 
 ## Phase 3.9: Performance & Polish
 
