@@ -32,9 +32,14 @@ paths:
               properties:
                 username:
                   type: string
+                  example: "johndoe"
                 password:
                   type: string
                   format: password
+                  example: "SecureP@ssw0rd!"
+            example:
+              username: "johndoe"
+              password: "SecureP@ssw0rd!"
       responses:
         '200':
           description: Successful authentication
@@ -42,6 +47,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthResponse'
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                user:
+                  id: "123e4567-e89b-12d3-a456-426614174000"
+                  username: "johndoe"
+                  email: "john@example.com"
+                  display_name: "John Doe"
+                  timezone: "America/New_York"
+                expires_at: "2025-09-09T20:00:00Z"
         '401':
           description: Invalid credentials
 
@@ -137,6 +151,35 @@ paths:
                     type: integer
                   context:
                     $ref: '#/components/schemas/Context'
+              example:
+                tasks:
+                  - id: "456e7890-e89b-12d3-a456-426614174001"
+                    title: "Buy groceries"
+                    description: "Pick up milk, bread, and eggs from the store"
+                    creator_id: "123e4567-e89b-12d3-a456-426614174000"
+                    assignee_id: null
+                    status: "pending"
+                    priority: 3
+                    estimated_minutes: 30
+                    due_at: "2025-09-09T18:00:00Z"
+                    created_at: "2025-09-09T10:00:00Z"
+                    locations:
+                      - id: "789e1234-e89b-12d3-a456-426614174002"
+                        name: "Grocery Store"
+                        address: "123 Main St, City, ST 12345"
+                        latitude: 40.7128
+                        longitude: -74.0060
+                        radius: 100
+                        category: "shopping"
+                total: 1
+                context:
+                  id: "abc12345-e89b-12d3-a456-426614174003"
+                  user_id: "123e4567-e89b-12d3-a456-426614174000"
+                  timestamp: "2025-09-09T12:00:00Z"
+                  current_latitude: 40.7130
+                  current_longitude: -74.0062
+                  available_minutes: 120
+                  energy_level: 4
     post:
       summary: Create a new task
       operationId: createTask
@@ -147,6 +190,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TaskCreate'
+            example:
+              title: "Complete project proposal"
+              description: "Draft and review the Q4 project proposal document"
+              priority: 2
+              estimated_minutes: 120
+              due_at: "2025-09-12T17:00:00Z"
+              location_ids: ["789e1234-e89b-12d3-a456-426614174002"]
+              dependency_ids: []
       responses:
         '201':
           description: Task created
@@ -563,20 +614,33 @@ components:
         id:
           type: string
           format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
         username:
           type: string
+          example: "johndoe"
+          minLength: 3
+          maxLength: 50
         email:
           type: string
           format: email
+          example: "john@example.com"
         display_name:
           type: string
+          example: "John Doe"
+          maxLength: 100
         timezone:
           type: string
+          example: "America/New_York"
         created_at:
           type: string
           format: date-time
+          example: "2025-09-01T10:00:00Z"
         settings:
           type: object
+          example:
+            theme: "dark"
+            notifications_enabled: true
+            default_priority: 3
 
     UserUpdate:
       type: object
@@ -594,49 +658,79 @@ components:
         id:
           type: string
           format: uuid
+          example: "456e7890-e89b-12d3-a456-426614174001"
         title:
           type: string
+          example: "Buy groceries"
+          minLength: 1
+          maxLength: 500
         description:
           type: string
+          example: "Pick up milk, bread, and eggs from the store"
         creator_id:
           type: string
           format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
         assignee_id:
           type: string
           format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          nullable: true
         list_id:
           type: string
           format: uuid
+          example: "def56789-e89b-12d3-a456-426614174004"
+          nullable: true
         status:
           type: string
           enum: [pending, active, completed, cancelled, blocked]
+          example: "pending"
         priority:
           type: integer
           minimum: 1
           maximum: 5
+          example: 3
         estimated_minutes:
           type: integer
+          example: 30
+          minimum: 1
+          nullable: true
         due_at:
           type: string
           format: date-time
+          example: "2025-09-09T18:00:00Z"
+          nullable: true
         completed_at:
           type: string
           format: date-time
+          example: "2025-09-09T18:30:00Z"
+          nullable: true
         created_at:
           type: string
           format: date-time
+          example: "2025-09-09T10:00:00Z"
         updated_at:
           type: string
           format: date-time
+          example: "2025-09-09T10:00:00Z"
         locations:
           type: array
           items:
             $ref: '#/components/schemas/Location'
+          example:
+            - id: "789e1234-e89b-12d3-a456-426614174002"
+              name: "Grocery Store"
+              address: "123 Main St, City, ST 12345"
+              latitude: 40.7128
+              longitude: -74.0060
+              radius: 100
+              category: "shopping"
         dependencies:
           type: array
           items:
             type: string
             format: uuid
+          example: ["abc12345-e89b-12d3-a456-426614174003"]
 
     TaskCreate:
       type: object
@@ -739,18 +833,34 @@ components:
         id:
           type: string
           format: uuid
+          example: "789e1234-e89b-12d3-a456-426614174002"
         name:
           type: string
+          example: "Home Office"
+          minLength: 1
+          maxLength: 200
         address:
           type: string
+          example: "123 Main St, City, ST 12345"
         latitude:
           type: number
+          example: 40.7128
+          minimum: -90
+          maximum: 90
         longitude:
           type: number
+          example: -74.0060
+          minimum: -180
+          maximum: 180
         radius:
           type: integer
+          example: 100
+          minimum: 1
+          maximum: 10000
         category:
           type: string
+          example: "work"
+          enum: ["work", "home", "shopping", "exercise", "social", "travel", "general"]
 
     LocationCreate:
       type: object
