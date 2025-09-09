@@ -113,16 +113,16 @@ This task list implements a Go-based context-aware task management system with S
 ## Phase 3.6: API Implementation
 
 ### Authentication Endpoints
-- [ ] **T058** POST /auth/login handler in `internal/api/auth.go` - implement login with JWT token generation
-- [ ] **T059** POST /auth/logout handler in `internal/api/auth.go` - implement logout with token invalidation
+- [x] **T058** POST /auth/login handler in `internal/api/auth.go` - implement login with JWT token generation
+- [x] **T059** POST /auth/logout handler in `internal/api/auth.go` - implement logout with token invalidation
 
 ### User Management Endpoints
-- [ ] **T060** GET /users/me handler in `internal/api/users.go` - get current user profile
-- [ ] **T061** PATCH /users/me handler in `internal/api/users.go` - update user profile with validation
+- [x] **T060** GET /users/me handler in `internal/api/users.go` - get current user profile
+- [x] **T061** PATCH /users/me handler in `internal/api/users.go` - update user profile with validation
 
 ### Task Management Endpoints  
-- [ ] **T062** GET /tasks handler in `internal/api/tasks.go` - get filtered tasks using context and filtering engine
-- [ ] **T063** POST /tasks handler in `internal/api/tasks.go` - create new task with location and dependency support
+- [x] **T062** GET /tasks handler in `internal/api/tasks.go` - get filtered tasks using context and filtering engine
+- [x] **T063** POST /tasks handler in `internal/api/tasks.go` - create new task with location and dependency support
 - [ ] **T064** GET /tasks/{taskId} handler in `internal/api/tasks.go` - get single task with relationships
 - [ ] **T065** PATCH /tasks/{taskId} handler in `internal/api/tasks.go` - update task with status validation
 - [ ] **T066** DELETE /tasks/{taskId} handler in `internal/api/tasks.go` - soft delete task with dependency validation

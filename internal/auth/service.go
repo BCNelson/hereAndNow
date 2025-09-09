@@ -104,9 +104,18 @@ func (s *AuthService) Login(req LoginRequest, userAgent, ipAddress string) (*Log
 		return nil, fmt.Errorf("invalid login request: %w", err)
 	}
 
+	// Try to get user by email first, then by username
 	user, err := s.userRepo.GetByEmail(req.Email)
 	if err != nil {
-		return nil, fmt.Errorf("invalid credentials")
+		// If email lookup fails, try username lookup
+		if userRepo, ok := s.userRepo.(interface{ GetByUsername(string) (*models.User, error) }); ok {
+			user, err = userRepo.GetByUsername(req.Email)
+			if err != nil {
+				return nil, fmt.Errorf("invalid credentials")
+			}
+		} else {
+			return nil, fmt.Errorf("invalid credentials")
+		}
 	}
 
 	if !s.verifyPassword(req.Password, user.PasswordHash) {
