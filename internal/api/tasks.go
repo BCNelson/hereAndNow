@@ -171,15 +171,15 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 		Title:       req.Title,
 		Description: req.Description,
 		CreatorID:   user.ID,
-		ListID:      req.ListID,
-		Status:      "pending",
+		ListID:      &req.ListID,
+		Status:      models.TaskStatusPending,
 		Priority:    req.Priority,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}
 
 	if req.EstimatedMinutes != nil {
-		task.EstimatedMinutes = *req.EstimatedMinutes
+		task.EstimatedMinutes = req.EstimatedMinutes
 	}
 
 	if req.DueAt != nil {
@@ -271,13 +271,13 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 		task.Description = *req.Description
 	}
 	if req.Status != nil {
-		task.Status = *req.Status
+		task.Status = models.TaskStatus(*req.Status)
 	}
 	if req.Priority != nil {
 		task.Priority = *req.Priority
 	}
 	if req.EstimatedMinutes != nil {
-		task.EstimatedMinutes = *req.EstimatedMinutes
+		task.EstimatedMinutes = req.EstimatedMinutes
 	}
 	if req.DueAt != nil {
 		task.DueAt = req.DueAt

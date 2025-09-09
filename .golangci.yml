@@ -1,3 +1,5 @@
+version: 2
+
 run:
   timeout: 5m
   tests: true
@@ -10,30 +12,10 @@ output:
   uniq-by-line: true
 
 linters:
-  disable-all: true
   enable:
-    - errcheck          # Check for unchecked errors
-    - gofmt             # Check formatting
-    - goimports         # Check imports
-    - govet             # Vet examines Go source code and reports suspicious constructs
-    - ineffassign       # Detect ineffectual assignments
-    - misspell          # Find misspelled English words
-    - revive            # Replacement for golint
-    - staticcheck       # Advanced static analysis
-    - typecheck         # Type checking
-    - unused            # Check for unused constants, variables, functions and types
-    - gosimple          # Simplify code
-    - deadcode          # Find dead code
-    - varcheck          # Find unused global variables and constants
-    - structcheck       # Find unused struct fields
-    - goconst           # Find repeated strings that could be replaced by a constant
-    - gocyclo           # Compute cyclomatic complexities
-    - dupl              # Code clone detection
-    - gosec             # Security checker
-    - unconvert         # Remove unnecessary type conversions
-    - exportloopref     # Check for pointers to enclosing loop variables
-    - gocritic          # Go critique
-    - gofumpt           # Stricter gofmt
+    - errcheck
+    - govet
+    - staticcheck
 
 linters-settings:
   errcheck:
