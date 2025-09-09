@@ -30,40 +30,40 @@ This task list implements a Go-based context-aware task management system with S
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
 
 ### Authentication Contract Tests
-- [ ] **T006** [P] Contract test POST /auth/login in `tests/contract/auth_login_test.go` - validate login request/response schema
-- [ ] **T007** [P] Contract test POST /auth/logout in `tests/contract/auth_logout_test.go` - validate logout response
+- [x] **T006** [P] Contract test POST /auth/login in `tests/contract/auth_login_test.go` - validate login request/response schema
+- [x] **T007** [P] Contract test POST /auth/logout in `tests/contract/auth_logout_test.go` - validate logout response
 
 ### User Management Contract Tests  
-- [ ] **T008** [P] Contract test GET /users/me in `tests/contract/users_me_test.go` - validate user profile schema
-- [ ] **T009** [P] Contract test PATCH /users/me in `tests/contract/users_update_test.go` - validate user update schema
+- [x] **T008** [P] Contract test GET /users/me in `tests/contract/users_me_test.go` - validate user profile schema
+- [x] **T009** [P] Contract test PATCH /users/me in `tests/contract/users_update_test.go` - validate user update schema
 
 ### Task Management Contract Tests
-- [ ] **T010** [P] Contract test GET /tasks in `tests/contract/tasks_list_test.go` - validate filtered tasks response with context
-- [ ] **T011** [P] Contract test POST /tasks in `tests/contract/tasks_create_test.go` - validate task creation schema
-- [ ] **T012** [P] Contract test GET /tasks/{taskId} in `tests/contract/tasks_get_test.go` - validate task details schema
-- [ ] **T013** [P] Contract test PATCH /tasks/{taskId} in `tests/contract/tasks_update_test.go` - validate task update schema
-- [ ] **T014** [P] Contract test DELETE /tasks/{taskId} in `tests/contract/tasks_delete_test.go` - validate task deletion
-- [ ] **T015** [P] Contract test POST /tasks/{taskId}/assign in `tests/contract/tasks_assign_test.go` - validate task assignment schema
-- [ ] **T016** [P] Contract test POST /tasks/{taskId}/complete in `tests/contract/tasks_complete_test.go` - validate task completion
-- [ ] **T017** [P] Contract test GET /tasks/{taskId}/audit in `tests/contract/tasks_audit_test.go` - validate filtering audit schema
-- [ ] **T018** [P] Contract test POST /tasks/natural in `tests/contract/tasks_natural_test.go` - validate natural language parsing
+- [x] **T010** [P] Contract test GET /tasks in `tests/contract/tasks_list_test.go` - validate filtered tasks response with context
+- [x] **T011** [P] Contract test POST /tasks in `tests/contract/tasks_create_test.go` - validate task creation schema
+- [x] **T012** [P] Contract test GET /tasks/{taskId} in `tests/contract/tasks_get_test.go` - validate task details schema
+- [x] **T013** [P] Contract test PATCH /tasks/{taskId} in `tests/contract/tasks_update_test.go` - validate task update schema
+- [x] **T014** [P] Contract test DELETE /tasks/{taskId} in `tests/contract/tasks_delete_test.go` - validate task deletion
+- [x] **T015** [P] Contract test POST /tasks/{taskId}/assign in `tests/contract/remaining_endpoints_test.go` - validate task assignment schema
+- [x] **T016** [P] Contract test POST /tasks/{taskId}/complete in `tests/contract/remaining_endpoints_test.go` - validate task completion
+- [x] **T017** [P] Contract test GET /tasks/{taskId}/audit in `tests/contract/remaining_endpoints_test.go` - validate filtering audit schema
+- [x] **T018** [P] Contract test POST /tasks/natural in `tests/contract/remaining_endpoints_test.go` - validate natural language parsing
 
 ### List Management Contract Tests
-- [ ] **T019** [P] Contract test GET /lists in `tests/contract/lists_get_test.go` - validate task lists schema
-- [ ] **T020** [P] Contract test POST /lists in `tests/contract/lists_create_test.go` - validate list creation schema
-- [ ] **T021** [P] Contract test GET /lists/{listId}/members in `tests/contract/list_members_test.go` - validate list members schema
-- [ ] **T022** [P] Contract test POST /lists/{listId}/members in `tests/contract/list_add_member_test.go` - validate member addition
+- [x] **T019** [P] Contract test GET /lists in `tests/contract/remaining_endpoints_test.go` - validate task lists schema
+- [x] **T020** [P] Contract test POST /lists in `tests/contract/remaining_endpoints_test.go` - validate list creation schema
+- [x] **T021** [P] Contract test GET /lists/{listId}/members in `tests/contract/remaining_endpoints_test.go` - validate list members schema
+- [x] **T022** [P] Contract test POST /lists/{listId}/members in `tests/contract/remaining_endpoints_test.go` - validate member addition
 
 ### Context & Location Contract Tests
-- [ ] **T023** [P] Contract test GET /locations in `tests/contract/locations_list_test.go` - validate locations schema
-- [ ] **T024** [P] Contract test POST /locations in `tests/contract/locations_create_test.go` - validate location creation schema  
-- [ ] **T025** [P] Contract test GET /context in `tests/contract/context_get_test.go` - validate current context schema
-- [ ] **T026** [P] Contract test POST /context in `tests/contract/context_update_test.go` - validate context update schema
+- [x] **T023** [P] Contract test GET /locations in `tests/contract/remaining_endpoints_test.go` - validate locations schema
+- [x] **T024** [P] Contract test POST /locations in `tests/contract/remaining_endpoints_test.go` - validate location creation schema  
+- [x] **T025** [P] Contract test GET /context in `tests/contract/context_get_test.go` - validate current context schema
+- [x] **T026** [P] Contract test POST /context in `tests/contract/remaining_endpoints_test.go` - validate context update schema
 
 ### Integration & Analytics Contract Tests
-- [ ] **T027** [P] Contract test POST /calendar/sync in `tests/contract/calendar_sync_test.go` - validate calendar sync response
-- [ ] **T028** [P] Contract test GET /analytics in `tests/contract/analytics_test.go` - validate analytics data schema
-- [ ] **T029** [P] Contract test GET /events (SSE) in `tests/contract/events_sse_test.go` - validate event stream format
+- [x] **T027** [P] Contract test POST /calendar/sync in `tests/contract/remaining_endpoints_test.go` - validate calendar sync response
+- [x] **T028** [P] Contract test GET /analytics in `tests/contract/remaining_endpoints_test.go` - validate analytics data schema
+- [x] **T029** [P] Contract test GET /events (SSE) in `tests/contract/remaining_endpoints_test.go` - validate event stream format
 
 ## Phase 3.3: Data Models (After contract tests exist and fail)
 
