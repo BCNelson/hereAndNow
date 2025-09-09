@@ -97,18 +97,18 @@ This task list implements a Go-based context-aware task management system with S
 ## Phase 3.5: Core Business Logic 
 
 ### Filtering Engine (Critical Path)
-- [ ] **T048** Filter interface in `pkg/filters/interface.go` - define FilterRule interface per research.md findings
-- [ ] **T049** Location filter in `pkg/filters/location.go` - implement location-based task filtering with radius calculation
-- [ ] **T050** Time filter in `pkg/filters/time.go` - implement time-based filtering using estimated minutes and calendar availability
-- [ ] **T051** Dependency filter in `pkg/filters/dependency.go` - implement dependency-based filtering with circular dependency detection
-- [ ] **T052** Priority filter in `pkg/filters/priority.go` - implement priority calculation with multiple factors
-- [ ] **T053** Filter engine in `pkg/filters/engine.go` - orchestrate all filters with transparent audit logging
+- [x] **T048** Filter interface in `pkg/filters/interface.go` - define FilterRule interface per research.md findings
+- [x] **T049** Location filter in `pkg/filters/location.go` - implement location-based task filtering with radius calculation
+- [x] **T050** Time filter in `pkg/filters/time.go` - implement time-based filtering using estimated minutes and calendar availability
+- [x] **T051** Dependency filter in `pkg/filters/dependency.go` - implement dependency-based filtering with circular dependency detection
+- [x] **T052** Priority filter in `pkg/filters/priority.go` - implement priority calculation with multiple factors
+- [x] **T053** Filter engine in `pkg/filters/engine.go` - orchestrate all filters with transparent audit logging
 
 ### Core Services
-- [ ] **T054** Task service in `pkg/hereandnow/task_service.go` - core task management with filtering integration
-- [ ] **T055** Context service in `pkg/hereandnow/context_service.go` - context evaluation and management
-- [ ] **T056** Calendar sync service in `pkg/sync/calendar.go` - CalDAV integration using dolanor/caldav-go per research.md
-- [ ] **T057** Authentication service in `internal/auth/service.go` - JWT token management and user authentication
+- [x] **T054** Task service in `pkg/hereandnow/task_service.go` - core task management with filtering integration
+- [x] **T055** Context service in `pkg/hereandnow/context_service.go` - context evaluation and management
+- [x] **T056** Calendar sync service in `pkg/sync/calendar.go` - CalDAV integration using dolanor/caldav-go per research.md
+- [x] **T057** Authentication service in `internal/auth/service.go` - JWT token management and user authentication
 
 ## Phase 3.6: API Implementation
 

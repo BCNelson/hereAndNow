@@ -410,7 +410,7 @@ func (r *ContextRepository) DeleteByUser(userID string) error {
 		return fmt.Errorf("failed to delete contexts for user: %w", err)
 	}
 
-	rowsAffected, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		return fmt.Errorf("failed to get affected rows: %w", err)
 	}
@@ -425,7 +425,7 @@ func (r *ContextRepository) DeleteOlderThan(before time.Time) error {
 		return fmt.Errorf("failed to delete old contexts: %w", err)
 	}
 
-	rowsAffected, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		return fmt.Errorf("failed to get affected rows: %w", err)
 	}
