@@ -68,22 +68,22 @@ This task list implements a Go-based context-aware task management system with S
 ## Phase 3.3: Data Models (After contract tests exist and fail)
 
 ### Core Entity Models
-- [ ] **T030** [P] User model in `pkg/models/user.go` - implement User struct with validation per data-model.md
-- [ ] **T031** [P] Task model in `pkg/models/task.go` - implement Task struct with TaskStatus enum and validation
-- [ ] **T032** [P] TaskList model in `pkg/models/task_list.go` - implement TaskList struct with hierarchy support
-- [ ] **T033** [P] Location model in `pkg/models/location.go` - implement Location struct with GPS coordinates validation
-- [ ] **T034** [P] Context model in `pkg/models/context.go` - implement Context struct for filtering decisions
+- [x] **T030** [P] User model in `pkg/models/user.go` - implement User struct with validation per data-model.md
+- [x] **T031** [P] Task model in `pkg/models/task.go` - implement Task struct with TaskStatus enum and validation
+- [x] **T032** [P] TaskList model in `pkg/models/task_list.go` - implement TaskList struct with hierarchy support
+- [x] **T033** [P] Location model in `pkg/models/location.go` - implement Location struct with GPS coordinates validation
+- [x] **T034** [P] Context model in `pkg/models/context.go` - implement Context struct for filtering decisions
 
 ### Relationship Models  
-- [ ] **T035** [P] TaskLocation model in `pkg/models/task_location.go` - implement many-to-many task-location relationship
-- [ ] **T036** [P] TaskDependency model in `pkg/models/task_dependency.go` - implement task dependencies with DependencyType enum
-- [ ] **T037** [P] CalendarEvent model in `pkg/models/calendar_event.go` - implement calendar integration model
-- [ ] **T038** [P] ListMember model in `pkg/models/list_member.go` - implement shared list membership with roles
-- [ ] **T039** [P] TaskAssignment model in `pkg/models/task_assignment.go` - implement task delegation with AssignmentStatus
+- [x] **T035** [P] TaskLocation model in `pkg/models/task_location.go` - implement many-to-many task-location relationship
+- [x] **T036** [P] TaskDependency model in `pkg/models/task_dependency.go` - implement task dependencies with DependencyType enum
+- [x] **T037** [P] CalendarEvent model in `pkg/models/calendar_event.go` - implement calendar integration model
+- [x] **T038** [P] ListMember model in `pkg/models/list_member.go` - implement shared list membership with roles
+- [x] **T039** [P] TaskAssignment model in `pkg/models/task_assignment.go` - implement task delegation with AssignmentStatus
 
 ### Audit & Analytics Models
-- [ ] **T040** [P] FilterAudit model in `pkg/models/filter_audit.go` - implement filtering transparency tracking
-- [ ] **T041** [P] Analytics model in `pkg/models/analytics.go` - implement productivity metrics aggregation
+- [x] **T040** [P] FilterAudit model in `pkg/models/filter_audit.go` - implement filtering transparency tracking
+- [x] **T041** [P] Analytics model in `pkg/models/analytics.go` - implement productivity metrics aggregation
 
 ## Phase 3.4: Database Layer
 
