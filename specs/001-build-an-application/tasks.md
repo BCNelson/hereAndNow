@@ -87,12 +87,12 @@ This task list implements a Go-based context-aware task management system with S
 
 ## Phase 3.4: Database Layer
 
-- [ ] **T042** Database connection manager in `internal/storage/db.go` - SQLite connection with WAL mode, migrations support
-- [ ] **T043** Migration runner in `internal/storage/migrate.go` - apply database schema migrations with rollback support
-- [ ] **T044** User repository in `internal/storage/user_repo.go` - CRUD operations for User entity with Argon2 password hashing
-- [ ] **T045** Task repository in `internal/storage/task_repo.go` - CRUD operations for Task entity with full-text search support
-- [ ] **T046** Location repository in `internal/storage/location_repo.go` - CRUD operations with spatial queries (Haversine distance)
-- [ ] **T047** Context repository in `internal/storage/context_repo.go` - context snapshots for audit trail
+- [x] **T042** Database connection manager in `internal/storage/db.go` - SQLite connection with WAL mode, migrations support
+- [x] **T043** Migration runner in `internal/storage/migrate.go` - apply database schema migrations with rollback support
+- [x] **T044** User repository in `internal/storage/user_repo.go` - CRUD operations for User entity with Argon2 password hashing
+- [x] **T045** Task repository in `internal/storage/task_repo.go` - CRUD operations for Task entity with full-text search support
+- [x] **T046** Location repository in `internal/storage/location_repo.go` - CRUD operations with spatial queries (Haversine distance)
+- [x] **T047** Context repository in `internal/storage/context_repo.go` - context snapshots for audit trail
 
 ## Phase 3.5: Core Business Logic 
 
