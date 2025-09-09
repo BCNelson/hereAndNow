@@ -143,19 +143,19 @@ This task list implements a Go-based context-aware task management system with S
 - [ ] **T077** GET /analytics handler in `internal/api/analytics.go` - get productivity analytics with date ranges
 - [ ] **T078** GET /events (SSE) handler in `internal/api/events.go` - Server-Sent Events for real-time updates
 
-## Phase 3.7: CLI Implementation
+## Phase 3.7: CLI Implementation ✅
 
 ### Core CLI Commands
-- [ ] **T079** [P] CLI main command in `cmd/hereandnow/main.go` - entry point with --help/--version/--format flags
-- [ ] **T080** [P] User commands in `cmd/hereandnow/user.go` - user create, list, update commands
-- [ ] **T081** [P] Task commands in `cmd/hereandnow/task.go` - task add, list, complete, assign commands per quickstart.md
-- [ ] **T082** [P] Location commands in `cmd/hereandnow/location.go` - location add, list, update commands
-- [ ] **T083** [P] Context commands in `cmd/hereandnow/context.go` - context show, update commands
-- [ ] **T084** [P] Server commands in `cmd/hereandnow/server.go` - serve, init, migrate commands
+- [x] **T079** [P] CLI main command in `cmd/hereandnow/main.go` - entry point with --help/--version/--format flags
+- [x] **T080** [P] User commands in `cmd/hereandnow/user.go` - user create, list, update commands
+- [x] **T081** [P] Task commands in `cmd/hereandnow/task.go` - task add, list, complete, assign commands per quickstart.md
+- [x] **T082** [P] Location commands in `cmd/hereandnow/location.go` - location add, list, update commands
+- [x] **T083** [P] Context commands in `cmd/hereandnow/context.go` - context show, update commands
+- [x] **T084** [P] Server commands in `cmd/hereandnow/server.go` - serve, init, migrate commands
 
 ### CLI Infrastructure  
-- [ ] **T085** CLI configuration in `cmd/hereandnow/config.go` - config file management (.hereandnow/config.yaml)
-- [ ] **T086** CLI output formatting in `cmd/hereandnow/format.go` - JSON, table, and human-readable output
+- [x] **T085** CLI configuration in `cmd/hereandnow/config.go` - config file management (.hereandnow/config.yaml)
+- [x] **T086** CLI output formatting in `cmd/hereandnow/format.go` - JSON, table, and human-readable output
 
 ## Phase 3.8: Integration Tests (After core implementation)
 
